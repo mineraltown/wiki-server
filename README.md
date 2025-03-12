@@ -12,7 +12,7 @@ pip install "psycopg[binary]"
 # 创建项目
 mkdir wiki-server
 django-admin startproject wiki wiki-server
-# 创建应用
+# 创建应用 主页
 python manage.py startapp index
 # 检测对模型文件的修改
 python manage.py makemigrations
@@ -22,6 +22,9 @@ python manage.py migrate
 python manage.py createsuperuser
 # 启动开发服务器
 python manage.py runserver 0.0.0.0:8000
+
+# 创建应用 重聚矿石镇
+python manage.py startapp saikai
 ```
 
 ## settings.py
@@ -51,6 +54,7 @@ DATABASES = {
 
 LANGUAGE_CODE = "zh-hans"
 TIME_ZONE = "Asia/Shanghai"
+USE_TZ = False
 
 STATIC_URL = "static/"
 STATIC_ROOT = "static/"

@@ -18,7 +18,7 @@ class version(models.Model):
 
 
 class chapter(models.Model):
-    name = models.CharField(max_length=10, unique=True, verbose_name="分类名称")
+    name = models.CharField(max_length=10, unique=True, verbose_name="名称")
     version = models.ForeignKey(
         version, models.SET_NULL, blank=True, null=True, verbose_name="版本"
     )
@@ -29,7 +29,7 @@ class chapter(models.Model):
 
 class content(models.Model):
     title = models.CharField(max_length=10, verbose_name="标题")
-    version = models.ForeignKey(
+    chapter = models.ForeignKey(
         chapter, models.SET_NULL, blank=True, null=True, verbose_name="版本/分类"
     )
     icon = models.ImageField(
@@ -39,6 +39,7 @@ class content(models.Model):
         verbose_name="图标",
     )
     createdate = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    lastmodified = models.DateTimeField(auto_now=True, verbose_name="创建时间")
     text = HTMLField(verbose_name="内容")
 
     def __str__(self):
