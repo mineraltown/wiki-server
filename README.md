@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     ...
+    "index",
     'tinymce',
     ...
 ]
@@ -49,6 +50,23 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = "zh-hans"
-
 TIME_ZONE = "Asia/Shanghai"
+
+STATIC_URL = "static/"
+STATIC_ROOT = "static/"
+MEDIA_ROOT = "media/"
+MEDIA_URL = "media/"
+
+TINYMCE_DEFAULT_CONFIG = {
+    "height": 800,
+    "width": 1200,
+    "menubar": True,
+    "language": "zh-Hans",
+    "plugins": "anchor link autolink code charmap emoticons fullscreen"
+    "help image lists advlist preview table visualblocks visualchars wordcount",
+    "toolbar": "undo redo | fontsize styles | "
+    "bold italic underline |  forecolor backcolor | "
+    "table visualblocks visualchars | bullist numlist | "
+    "searchreplace  | link image | code preview | fullscreen help",
+}
 ```
