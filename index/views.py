@@ -34,13 +34,15 @@ def menu(request, v=False):
                     parent(i, d["list"][i.title])
 
     if v:
-        to_list = to.objects.filter(version__sub=v, parent=None).order_by("-sort")
+        game = version.objects.get(sub=v)
+        data = {"cover": game.cover.url, "wiki": {}}
+        to_list = to.objects.filter(version=game, parent=None).order_by("-sort")
         for t in to_list:
             if t.enable:
-                data[t.title] = {
+                data["wiki"][t.title] = {
                     "list": {},
                 }
-                parent(t, data[t.title])
+                parent(t, data["wiki"][t.title])
 
     else:
         v = version.objects.filter(enable=True).order_by("-release_date")
