@@ -21,7 +21,7 @@ python manage.py migrate
 # 创建管理员账号
 python manage.py createsuperuser
 # 启动开发服务器
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8888
 
 # 创建应用 重聚矿石镇
 python manage.py startapp saikai
@@ -36,8 +36,10 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     ...
-    "index",
+    "index.apps.IndexConfig",
+    "saikai.apps.SaikaiConfig",
     'tinymce',
+    "corsheaders",
     ...
 ]
 
@@ -60,6 +62,14 @@ STATIC_URL = "static/"
 STATIC_ROOT = "static/"
 MEDIA_ROOT = "media/"
 MEDIA_URL = "media/"
+
+CORS_ALLOW_ALL_ORIGINS = True
+MIDDLEWARE = [
+    ...,
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    ...,
+]
 
 TINYMCE_DEFAULT_CONFIG = {
     "height": 800,

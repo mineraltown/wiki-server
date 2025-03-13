@@ -9,12 +9,39 @@ def index(request):
 
 def menu(request, v=False):
     data = {}
+
+    def parent(obj, d):
+        r = to.objects.filter(parent=obj).order_by("-sort")
+        for i in r:
+            if i.enable:
+                if i.link != None:
+                    if i.page == "":
+                        d["list"][i.link.title] = {
+                            "id": i.link.id,
+                            "icon": i.icon.url,
+                        }
+                    else:
+                        d["list"][i.link.title] = {
+                            "page": i.page,
+                            "icon": i.icon.url,
+                        }
+
+                else:
+                    d["list"][i.title] = {
+                        "icon": i.icon.url,
+                        "list": {},
+                    }
+                    parent(i, d["list"][i.title])
+
     if v:
-        chapter_list = chapter.objects.filter(version__sub=v).order_by("id")
-        for i in chapter_list:
-            data[i.name] = [
-                list(content.objects.filter(chapter=i).values("id", "title", "icon"))
-            ]
+        to_list = to.objects.filter(version__sub=v, parent=None).order_by("-sort")
+        for t in to_list:
+            if t.enable:
+                data[t.title] = {
+                    "list": {},
+                }
+                parent(t, data[t.title])
+
     else:
         v = version.objects.filter(enable=True).order_by("-release_date")
         for i in v:

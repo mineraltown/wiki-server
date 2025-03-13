@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class IndexConfig(AppConfig):
+class SaikaiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'index'
-    verbose_name = "主页"
+    name = 'saikai'
+    verbose_name = "重聚矿石镇"
