@@ -17,8 +17,8 @@ SEASON = [
 ]
 
 CLASSIFICATION = [
-    ("B", "花嫁候补"),  # Boy
-    ("G", "花婿候补"),  # Girl
+    ("G", "花嫁候补"),  # Boy
+    ("B", "花婿候补"),  # Girl
     ("O", "普通居民"),  # Ordinary
     ("E", "精灵"),  # Elf
 ]
@@ -28,6 +28,7 @@ class resident(models.Model):
 
     def like_default():
         return {
+            "最喜欢": ["", ""],
             "很喜欢": ["", ""],
             "喜欢": ["", ""],
             "普通": ["", ""],
@@ -122,9 +123,7 @@ class event(models.Model):
         max_length=20, default="", blank=True, verbose_name="场所"
     )
     other = HTMLField(blank=True, verbose_name="其他")
-    performer = models.ManyToManyField(
-        resident, blank=True, verbose_name="登场居民"
-    )
+    performer = models.ManyToManyField(resident, blank=True, verbose_name="登场居民")
     result = HTMLField(blank=True, verbose_name="结果")
     note = HTMLField(blank=True, verbose_name="注释")
 
