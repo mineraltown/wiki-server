@@ -87,9 +87,10 @@ class resident(models.Model):
 
 
 EVENT_CLASSIFICATION = [
+    ("L", "爱情事件"),  # Love
+    ("M", "婚后事件"),  # Marriage
     ("E", "年度节日"),  # Event
     ("R", "居民事件"),  # Resident
-    ("M", "婚后事件"),  # Marriage
     ("O", "其他事件"),  # Other
 ]
 
@@ -97,7 +98,7 @@ EVENT_CLASSIFICATION = [
 class event(models.Model):
     title = models.CharField(max_length=20, unique=True, verbose_name="事件名称")
     form = models.CharField(
-        max_length=1, choices=EVENT_CLASSIFICATION, default="O", verbose_name="分类"
+        max_length=1, choices=EVENT_CLASSIFICATION, default="R", verbose_name="分类"
     )
     desc = HTMLField(blank=True, verbose_name="描述")
     month = models.CharField(
@@ -176,8 +177,8 @@ class fish(models.Model):
         choices=FISH_PROBABILITY, default=2, verbose_name="冬"
     )
     location_list = models.JSONField(default=location_list, verbose_name="地点")
-    max_size = models.PositiveSmallIntegerField(verbose_name="最大尺寸")
     min_size = models.PositiveSmallIntegerField(verbose_name="最小尺寸")
+    max_size = models.PositiveSmallIntegerField(verbose_name="最大尺寸")
     king = models.BooleanField(default=False, verbose_name="鱼王")
     special = models.BooleanField(default=False, verbose_name="特殊")
     trash = models.BooleanField(default=False, verbose_name="垃圾")
