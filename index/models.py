@@ -5,7 +5,7 @@ from tinymce.models import HTMLField
 class version(models.Model):
     title = models.CharField(max_length=30, unique=True, verbose_name="名称")
     title_jp = models.CharField(max_length=30, unique=True, verbose_name="日语")
-    sub = models.CharField(max_length=15, unique=True, verbose_name="索引")
+    sub = models.CharField(max_length=15, verbose_name="索引")
     release_date = models.DateField(verbose_name="发售时间")
     url = models.URLField(default="", blank=True, verbose_name="官网")
     enable = models.BooleanField(default=False, verbose_name="启用")
