@@ -24,5 +24,8 @@ class toAdmin(admin.ModelAdmin):
     list_display = ["__str__", "version", "parent", "title", "link", "page" ,"enable"]
     list_editable = ["enable"]
     list_filter = ["version", "enable"]
+    autocomplete_fields = ["link"]
 
-admin.site.register(content)
+@admin.register(content)
+class contentAdmin(admin.ModelAdmin):
+    search_fields = ["id", "title"]

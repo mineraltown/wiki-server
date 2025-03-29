@@ -25,7 +25,6 @@ def menu(request, v=False):
                             "page": i.page,
                             "icon": i.icon.url,
                         }
-
                 else:
                     d["list"][i.title] = {
                         "icon": i.icon.url,
@@ -43,11 +42,10 @@ def menu(request, v=False):
                     "list": {},
                 }
                 parent(t, data["wiki"][t.title])
-
     else:
         v = version.objects.filter(enable=True).order_by("-release_date")
         for i in v:
-            data[i.sub] = i.title
+            data[i.sub] = i.title.lstrip("牧场物语 ")
     return JsonResponse(
         data,
         safe=False,
