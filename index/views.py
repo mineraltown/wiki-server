@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import *
 
-
 def index(request):
     return HttpResponse("Hello, world.")
 
@@ -18,23 +17,23 @@ def menu(request, v=False):
                     if i.page == "":
                         d["list"][i.link.title] = {
                             "id": i.link.id,
-                            "icon": i.icon.url,
+                            "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
                         }
                     else:
                         d["list"][i.link.title] = {
                             "page": i.page,
-                            "icon": i.icon.url,
+                            "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
                         }
                 else:
                     d["list"][i.title] = {
-                        "icon": i.icon.url,
+                        "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
                         "list": {},
                     }
                     parent(i, d["list"][i.title])
 
     if v:
         game = version.objects.get(sub=v)
-        data = {"cover": game.cover.url, "wiki": {}}
+        data = {"cover": request.build_absolute_uri('/')[:-1] + game.cover.url, "wiki": {}}
         to_list = to.objects.filter(version=game, parent=None).order_by("-sort")
         for t in to_list:
             if t.enable:
@@ -61,7 +60,9 @@ def html(request, id):
     data = {
         "title": i.title,
         "time": i.lastmodified.strftime("%Y年%m月%d日 %H:%M"),
-        "text": i.text.replace("\r\n", ""),
+        "text": i.text.replace("\r\n", "").replace(
+            'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
+        ),
     }
     return JsonResponse(
         data,

@@ -21,10 +21,11 @@ class versionAdmin(admin.ModelAdmin):
 
 @admin.register(to)
 class toAdmin(admin.ModelAdmin):
+    search_fields = ["id", "title"]
     list_display = ["__str__", "version", "parent", "title", "link", "page" ,"enable"]
     list_editable = ["enable"]
     list_filter = ["version", "enable"]
-    autocomplete_fields = ["link"]
+    autocomplete_fields = ["parent", "link"]
 
 @admin.register(content)
 class contentAdmin(admin.ModelAdmin):

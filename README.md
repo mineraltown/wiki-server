@@ -59,11 +59,15 @@ TIME_ZONE = "Asia/Shanghai"
 USE_TZ = False
 
 STATIC_URL = "static/"
-STATIC_ROOT = "static/"
+# STATIC_ROOT = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 MEDIA_ROOT = "media/"
 MEDIA_URL = "media/"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
     ...,
     "corsheaders.middleware.CorsMiddleware",
@@ -76,6 +80,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "width": 1200,
     "menubar": True,
     "language": "zh-Hans",
+    "relative_urls": False,
+    "remove_script_host": True,
     "plugins": "anchor link autolink code charmap emoticons fullscreen"
     "help image lists advlist preview table visualblocks visualchars wordcount",
     "toolbar": "undo redo | fontsize styles | "
