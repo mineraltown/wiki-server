@@ -6,7 +6,7 @@ from .models import *
 class residentAdmin(admin.ModelAdmin):
     list_display = ["name", "form", "sex", "birth_month", "birth_day"]
     list_filter = ["form", "sex", "birth_month"]
-    search_fields = ["name"]
+    search_fields = ["name", "name_jp", "name_en"]
 
 
 @admin.register(fish)

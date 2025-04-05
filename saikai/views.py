@@ -13,7 +13,9 @@ def get_resident(request, r=False):
                 "en": i.name_en,
             },
             "photo": i.photo.url,
-            "desc": i.desc.replace("\r\n", ""),
+            "desc": i.desc.replace("\r\n", "").replace(
+                'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
+            ),
             "first": i.first,
             "address": i.address,
             "sex": i.get_sex_display(),
@@ -24,18 +26,17 @@ def get_resident(request, r=False):
             "family": i.family,
             "like": i.like,
             "trip": i.trip.replace("\r\n", ""),
-            "note": i.note.replace("\r\n", ""),
+            "note": i.note.replace("\r\n", "").replace(
+                'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
+            ),
             "event": {},
         }
 
         for x in EVENT_CLASSIFICATION:
             if x[0] == "L":
                 data["event"][x[1]] = []
-                # r = event.objects.filter(performer=i, form=x[0])
                 r = event.objects.filter(performer=i, form=x[0])
-                print(r)
                 for e in r:
-                    print(e)
                     n = {
                         "title": e.title,
                         "desc": e.desc.replace("\r\n", ""),
@@ -63,7 +64,7 @@ def get_resident(request, r=False):
     else:
         for x in CLASSIFICATION:
             data[x[1]] = {}
-            for y in resident.objects.filter(form=x[0]):
+            for y in resident.objects.filter(form=x[0]).order_by("id"):
                 data[x[1]][y.name_en] = {"icon": y.icon.url, "name": y.name}
 
     return JsonResponse(
