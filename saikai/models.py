@@ -99,7 +99,7 @@ EVENT_CLASSIFICATION = [
 class event(models.Model):
     title = models.CharField(max_length=20, unique=True, verbose_name="事件名称")
     form = models.CharField(
-        max_length=1, choices=EVENT_CLASSIFICATION, default="R", verbose_name="分类"
+        max_length=1, choices=EVENT_CLASSIFICATION, default="E", verbose_name="分类"
     )
     desc = HTMLField(blank=True, verbose_name="描述")
     month = models.CharField(
@@ -115,9 +115,9 @@ class event(models.Model):
         verbose_name="日",
         help_text="年度节日专用",
     )
-    date = models.CharField(max_length=20, default="-", blank=True, verbose_name="日期")
-    week = models.CharField(max_length=20, default="-", blank=True, verbose_name="星期")
-    time = models.CharField(max_length=30, default="-", blank=True, verbose_name="时间")
+    date = models.CharField(max_length=20, default="", blank=True, verbose_name="日期")
+    week = models.CharField(max_length=20, default="", blank=True, verbose_name="星期")
+    time = models.CharField(max_length=30, default="", blank=True, verbose_name="时间")
     weather = models.CharField(
         max_length=10, default="晴", blank=True, verbose_name="天气"
     )
@@ -201,8 +201,8 @@ class cookbook(models.Model):
     name = models.CharField(max_length=20, unique=True, verbose_name="名称")
     name_jp = models.CharField(max_length=20, unique=True, verbose_name="名称（日语）")
     price = models.PositiveIntegerField(verbose_name="出售价格")
-    physical = models.PositiveSmallIntegerField(verbose_name="回复体力")
-    fatigue = models.PositiveSmallIntegerField(verbose_name="回复疲劳")
+    physical = models.SmallIntegerField(verbose_name="回复体力")
+    fatigue = models.SmallIntegerField(verbose_name="回复疲劳")
     ingredients = models.JSONField(default=default, verbose_name="成分")
     kitchenware = models.JSONField(default=default, verbose_name="厨具")
     how_to_get = models.CharField(

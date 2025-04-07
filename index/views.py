@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import *
 
+
 def index(request):
     return HttpResponse("Hello, world.")
 
@@ -14,26 +15,29 @@ def menu(request, v=False):
         for i in r:
             if i.enable:
                 if i.link != None:
-                    if i.page == "":
-                        d["list"][i.link.title] = {
-                            "id": i.link.id,
-                            "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
+                    d["list"][i.link.title] = {
+                        "id": i.link.id,
+                        "icon": request.build_absolute_uri("/")[:-1] + i.icon.url,
+                    }
+                else:
+                    if i.page != "":
+                        d["list"][i.title] = {
+                            "page": i.page,
+                            "icon": request.build_absolute_uri("/")[:-1] + i.icon.url,
                         }
                     else:
-                        d["list"][i.link.title] = {
-                            "page": i.page,
-                            "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
+                        d["list"][i.title] = {
+                            "icon": request.build_absolute_uri("/")[:-1] + i.icon.url,
+                            "list": {},
                         }
-                else:
-                    d["list"][i.title] = {
-                        "icon": request.build_absolute_uri('/')[:-1] + i.icon.url,
-                        "list": {},
-                    }
-                    parent(i, d["list"][i.title])
+                        parent(i, d["list"][i.title])
 
     if v:
         game = version.objects.get(sub=v)
-        data = {"cover": request.build_absolute_uri('/')[:-1] + game.cover.url, "wiki": {}}
+        data = {
+            "cover": request.build_absolute_uri("/")[:-1] + game.cover.url,
+            "wiki": {},
+        }
         to_list = to.objects.filter(version=game, parent=None).order_by("-sort")
         for t in to_list:
             if t.enable:
