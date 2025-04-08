@@ -31,33 +31,6 @@ def get_resident(request, r=False):
             ),
             "event": {},
         }
-
-        for x in EVENT_CLASSIFICATION:
-            if x[0] == "L":
-                data["event"][x[1]] = []
-                r = event.objects.filter(performer=i, form=x[0])
-                for e in r:
-                    n = {
-                        "title": e.title,
-                        "desc": e.desc.replace("\r\n", ""),
-                        "date": e.date,
-                        "week": e.week,
-                        "time": e.time,
-                        "weather": e.weather,
-                        "address": e.address,
-                        "other": e.other.replace("\r\n", ""),
-                        "performer": list(e.performer.values_list("name", flat=True)),
-                        "result": e.result.replace("\r\n", ""),
-                        "note": e.note.replace("\r\n", ""),
-                    }
-                    data["event"][x[1]].append(n)
-            else:
-                data["event"][x[1]] = list(
-                    event.objects.filter(performer=i, form=x[0]).values_list(
-                        "id", "title"
-                    )
-                )
-
         if i.birth_day_another != 0 and i.birth_day_another != i.birth_day:
             data["birth"]["another"] = i.birth_day_another
 
@@ -79,7 +52,16 @@ def get_resident(request, r=False):
 
 def get_fish(request):
     data = []
-    for i in fish.objects.all():
+    for i in fish.objects.all().order_by("id"):
+
+        location = []
+        if i.trash:
+            location.append("全部")
+        else:
+            for x in i.location_list:
+                if i.location_list[x]:
+                    location.append(x)
+
         data.append(
             {
                 "name": i.name,
@@ -90,7 +72,7 @@ def get_fish(request):
                     "autumn": i.autumn,
                     "winter": i.winter,
                 },
-                "location_list": i.location_list,
+                "location": location,
                 "size": {
                     "min": i.min_size,
                     "max": i.max_size,
@@ -111,44 +93,9 @@ def get_fish(request):
     )
 
 
-def get_event(request, mode=False):
-    data = []
-    if mode:
-        r = event.objects.filter(form=mode)
-        for i in r:
-            n = {
-                "title": i.title,
-                "desc": i.desc.replace("\r\n", ""),
-                "time": i.time,
-                "weather": i.weather,
-                "address": i.address,
-                "other": i.other.replace("\r\n", ""),
-                "performer": list(i.performer.values_list("name", flat=True)),
-                "result": i.result.replace("\r\n", ""),
-                "note": i.note.replace("\r\n", ""),
-            }
-            if mode == "E":
-                n["month"] = i.month
-                n["day"] = i.day
-            else:
-                n["date"] = i.date
-                n["week"] = i.week
-            data.append(n)
-    else:
-        data = EVENT_CLASSIFICATION
-    return JsonResponse(
-        data,
-        safe=False,
-        json_dumps_params={
-            "indent": 4,
-            "ensure_ascii": False,
-        },
-    )
-
-
 def get_cookbook(request):
     data = []
-    for i in cookbook.objects.all():
+    for i in cookbook.objects.all().order_by("id"):
         data.append(
             {
                 "name": i.name,

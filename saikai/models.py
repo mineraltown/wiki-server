@@ -86,7 +86,7 @@ class resident(models.Model):
         verbose_name = "居民"
         verbose_name_plural = "居民"
 
-
+"""
 EVENT_CLASSIFICATION = [
     ("L", "爱情事件"),  # Love
     ("M", "婚后事件"),  # Marriage
@@ -135,7 +135,7 @@ class event(models.Model):
     class Meta:
         verbose_name = "事件"
         verbose_name_plural = "事件"
-
+"""
 
 FISH_PROBABILITY = [
     (0, "无"),
