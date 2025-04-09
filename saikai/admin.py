@@ -20,9 +20,3 @@ class fishAdmin(admin.ModelAdmin):
 class cookbookAdmin(admin.ModelAdmin):
     list_display = ["name", "price", "ingredients", "kitchenware"]
     search_fields = ["name", "ingredients", "kitchenware"]
-
-
-@admin.register(event)
-class eventAdmin(admin.ModelAdmin):
-    list_display = ["title", "form"]
-    search_fields = ["title"]

@@ -23,6 +23,8 @@ python manage.py createsuperuser
 # 启动开发服务器
 python manage.py runserver 0.0.0.0:8888
 
+# 创建应用 居民
+python manage.py startapp resident
 # 创建应用 重聚矿石镇
 python manage.py startapp saikai
 ```
@@ -37,6 +39,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     ...
     "index.apps.IndexConfig",
+    "resident.apps.ResidentConfig",
     "saikai.apps.SaikaiConfig",
     'tinymce',
     "corsheaders",
