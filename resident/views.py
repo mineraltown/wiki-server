@@ -2,10 +2,10 @@ from django.http import JsonResponse
 from saikai.models import resident, CLASSIFICATION
 
 
-def saikai_resident(request, r=False):
+def saikai_resident(request, id=False):
     data = {}
-    if r:
-        i = resident.objects.get(name_en=r)
+    if id:
+        i = resident.objects.get(id=id)
         data = {
             "name": {
                 "cn": i.name,
@@ -37,7 +37,7 @@ def saikai_resident(request, r=False):
         for x in CLASSIFICATION:
             data[x[1]] = {}
             for y in resident.objects.filter(form=x[0]).order_by("id"):
-                data[x[1]][y.name_en] = {"icon": y.icon.url, "name": y.name}
+                data[x[1]][y.name_en] = {"id": y.id, "icon": y.icon.url, "name": y.name}
 
     return JsonResponse(
         data,

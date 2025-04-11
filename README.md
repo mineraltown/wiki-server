@@ -22,6 +22,8 @@ python manage.py migrate
 python manage.py createsuperuser
 # 启动开发服务器
 python manage.py runserver 0.0.0.0:8888
+# 将静态文件收集至独立目录(STATIC_ROOT)
+python manage.py collectstatic
 
 # 创建应用 居民
 python manage.py startapp resident
@@ -34,7 +36,7 @@ python manage.py startapp saikai
 ```py
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["api.mineraltown.net"]
 
 INSTALLED_APPS = [
     ...
@@ -62,14 +64,15 @@ TIME_ZONE = "Asia/Shanghai"
 USE_TZ = False
 
 STATIC_URL = "static/"
-# STATIC_ROOT = "static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATIC_ROOT = "static/"
+
 MEDIA_ROOT = "media/"
 MEDIA_URL = "media/"
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://\w+\.mineraltown\.net$",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
     ...,
