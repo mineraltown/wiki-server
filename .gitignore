@@ -23,3 +23,8 @@ wiki/settings.py
 /static/
 /media/
 migrations/
+test*
+
+# uWSGI
+*.sock
+uwsgi.ini

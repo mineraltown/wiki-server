@@ -6,6 +6,7 @@
 pip install django-cors-headers
 pip install django-tinymce
 pip install "psycopg[binary]"
+pip install Pillow
 ```
 
 ```sh
