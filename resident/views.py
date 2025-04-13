@@ -1,3 +1,4 @@
+from django.template import loader
 from django.http import JsonResponse
 from saikai.models import resident, CLASSIFICATION
 
@@ -6,33 +7,19 @@ def saikai_resident(request, id=False):
     data = {}
     if id:
         i = resident.objects.get(id=id)
-        data = {
-            "name": {
-                "cn": i.name,
-                "jp": i.name_jp,
-                "en": i.name_en,
-            },
-            "photo": i.photo.url,
-            "desc": i.desc.replace("\r\n", "").replace(
-                'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
-            ),
-            "first": i.first,
-            "address": i.address,
-            "sex": i.get_sex_display(),
-            "birth": {
-                "month": i.get_birth_month_display(),
-                "day": i.birth_day,
-            },
-            "family": i.family,
-            "like": i.like,
-            "trip": i.trip.replace("\r\n", ""),
-            "note": i.note.replace("\r\n", "").replace(
-                'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
-            ),
+        i.note = i.note.replace(
+            'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
+        )
+        context = {
+            "url": request.build_absolute_uri("/")[:-1],
+            "resident": i,
         }
-        if i.birth_day_another != 0 and i.birth_day_another != i.birth_day:
-            data["birth"]["another"] = i.birth_day_another
-
+        template = loader.get_template("resident/saikai.html")
+        data = {
+            "name": i.name,
+            "photo": i.photo.url,
+            "html": template.render(context, request),
+        }
     else:
         for x in CLASSIFICATION:
             data[x[1]] = {}

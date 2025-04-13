@@ -1,0 +1,20 @@
+{% if resident.desc %}<div class="note">{% autoescape off %}{{ resident.desc }}{% endautoescape %}</div>{% endif %}
+<ul class="ul">{% if resident.first %}
+<li class="li"><strong>登场</strong>：{{ resident.first }}</li>{% endif %}{% if resident.address %}
+<li class="li"><strong>住所</strong>：{{ resident.address }}</li>{% endif %}{% if resident.sex and resident.get_sex_display != "未知" %}
+<li class="li"><strong>性别</strong>：{{ resident.get_sex_display }}</li>{% endif %}{% if resident.get_birth_month_display and resident.get_birth_month_display != "无" %}
+<li class="li"><strong>生日</strong>：{{ resident.get_birth_month_display }} {{ resident.birth_day }} 日{% if resident.birth_day_another %}（{{ resident.get_birth_month_display }} {{ resident.birth_day_another }} 日）{% endif %}</li>{% endif %}{% if resident.family %}
+<li class="li"><strong>家庭成员</strong>：{{ resident.family }}</li>{% endif %}
+</ul>{% if resident.like %}
+<h2 class="h2">喜欢与讨厌的物品</h2>
+<ul class="ul">{% if resident.like.最喜欢 %}
+<li class="li"><strong>最喜欢</strong>：{% for i in resident.like.最喜欢 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>
+<li class="li"><strong>很喜欢</strong>：{% for i in resident.like.很喜欢 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>
+<li class="li"><strong>喜欢</strong>：{% for i in resident.like.喜欢 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>
+<li class="li"><strong>普通</strong>：{% for i in resident.like.普通 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>
+<li class="li"><strong>讨厌</strong>：{% for i in resident.like.讨厌 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>
+<li class="li"><strong>很讨厌</strong>：{% for i in resident.like.很讨厌 %}{{ i }}{% if not forloop.last %}、{% endif %}{% endfor %}</li>{% endif %}
+</ul>{% endif %}
+{% if resident.trip %}<h2 class="h2">行程</h2>
+{% autoescape off %}{{ resident.trip }}{% endautoescape %}{% endif %}
+{% if resident.note %}{% autoescape off %}{{ resident.note }}{% endautoescape %}{% endif %}

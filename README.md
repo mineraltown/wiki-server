@@ -70,9 +70,20 @@ STATIC_ROOT = "static/"
 MEDIA_ROOT = "media/"
 MEDIA_URL = "media/"
 
+# 允许所有域名访问
+# CORS_ALLOW_ALL_ORIGINS = True
+
+# 授权进行跨站 HTTP 请求的来源列表
+# CORS_ALLOWED_ORIGINS = [
+#     "https://api.mineraltown.net",
+# ]
+
+# 授权进行跨站 HTTP 请求的来源列表（正则）
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^https://\w+\.mineraltown\.net$",
 ]
+
+# 允许将Cookie包含在跨站点HTTP请求中
 CORS_ALLOW_CREDENTIALS = True
 
 MIDDLEWARE = [
