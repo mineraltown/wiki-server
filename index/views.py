@@ -1,5 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
+import re
 from .models import *
 
 
@@ -68,6 +69,61 @@ def html(request, id):
             'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
         ),
     }
+    return JsonResponse(
+        data,
+        safe=True,
+        json_dumps_params={
+            "indent": 4,
+            "ensure_ascii": False,
+        },
+    )
+
+
+def translate_query(request):
+    data = {}
+
+    if "key" in request.GET:
+        # 转义关键字中的特殊字符（避免正则注入）
+        escaped_key = re.escape(request.GET["key"])
+        # 构建查询条件
+        """
+        (^|;) 匹配字符串的 开头 或 分号 ;
+        %s 搜索关键词
+        (;|$) 匹配字符串的 结尾 或 分号 ;
+        """
+        query = (
+            Q(cn=request.GET["key"])  # 匹配 cn 字段
+            | Q(jp=request.GET["key"])  # 匹配 jp 字段
+            | Q(other__iregex=r"(^|;)%s(;|$)" % escaped_key)  # 匹配 other 分割后的元素
+        )
+        # 执行查询
+        r = translate.objects.filter(query)
+        for i in r:
+            data[i.jp] = [i.cn]
+            if i.other != "":
+                data[i.jp] += i.other.split(";")
+    else:
+        r = translate.objects.all()
+        for i in r:
+            data[i.jp] = i.cn
+
+    return JsonResponse(
+        data,
+        safe=True,
+        json_dumps_params={
+            "indent": 4,
+            "ensure_ascii": False,
+        },
+    )
+
+
+def replacementMap(request):
+    data = {}
+
+    r = translate.objects.exclude(other__exact="")
+    for i in r:
+        for s in i.other.split(";"):
+            data[s.strip()] = i.cn
     return JsonResponse(
         data,
         safe=True,

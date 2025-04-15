@@ -88,3 +88,16 @@ class to(models.Model):
     class Meta:
         verbose_name = "攻略索引"
         verbose_name_plural = "攻略索引"
+
+
+class translate(models.Model):
+    jp = models.CharField(max_length=50, unique=True, verbose_name="原文")
+    cn = models.CharField(max_length=50, verbose_name="译文", help_text="以官译为主")
+    other = models.CharField(max_length=50, default="", blank=True, verbose_name="其他", help_text="存在多种其他译名的情况，以英文的半角分号(;)为区分")
+
+    def __str__(self):
+        return self.cn
+
+    class Meta:
+        verbose_name = "翻译对照"
+        verbose_name_plural = "翻译对照"
