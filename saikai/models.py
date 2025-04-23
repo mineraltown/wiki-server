@@ -147,7 +147,7 @@ FISH_PROBABILITY = [
 
 class fish(models.Model):
 
-    def location_list():
+    def location_default():
         return {
             "海边": True,
             "湖边": False,
@@ -178,7 +178,7 @@ class fish(models.Model):
     winter = models.PositiveSmallIntegerField(
         choices=FISH_PROBABILITY, default=2, verbose_name="冬"
     )
-    location_list = models.JSONField(default=location_list, verbose_name="地点")
+    location_list = models.JSONField(default=location_default, verbose_name="地点")
     min_size = models.PositiveSmallIntegerField(verbose_name="最小尺寸")
     max_size = models.PositiveSmallIntegerField(verbose_name="最大尺寸")
     king = models.BooleanField(default=False, verbose_name="鱼王")
@@ -219,7 +219,7 @@ class cookbook(models.Model):
 
 
 class tv_cookbook(models.Model):
-    name = models.CharField(max_length=20, unique=True, verbose_name="名称")
+    name = models.CharField(max_length=20, verbose_name="名称")
     year = models.PositiveSmallIntegerField(
         default=1,
         verbose_name="年",
@@ -251,9 +251,9 @@ class festival(models.Model):
         default=1,
         verbose_name="日",
     )
-    start_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="开始时间"),
-    end_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="结束时间"),
-    address = models.CharField(max_length=20, null=True, blank=True, verbose_name="地点"),
+    start_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="开始时间")
+    end_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="结束时间")
+    address = models.CharField(max_length=20, null=True, blank=True, verbose_name="地点")
     note = HTMLField(blank=True, verbose_name="注释")
 
     def __str__(self):

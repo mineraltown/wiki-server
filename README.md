@@ -25,7 +25,6 @@ python manage.py createsuperuser
 python manage.py runserver 0.0.0.0:8888
 # 将静态文件收集至独立目录(STATIC_ROOT)
 python manage.py collectstatic
-
 # 创建应用 居民
 python manage.py startapp resident
 # 创建应用 提醒
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     ...
     "index.apps.IndexConfig",
     "resident.apps.ResidentConfig",
+    "todo.apps.TodoConfig",
     "saikai.apps.SaikaiConfig",
     'tinymce',
     "corsheaders",

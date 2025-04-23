@@ -20,3 +20,6 @@ class fishAdmin(admin.ModelAdmin):
 class cookbookAdmin(admin.ModelAdmin):
     list_display = ["name", "price", "ingredients", "kitchenware"]
     search_fields = ["name", "ingredients", "kitchenware"]
+
+admin.site.register(tv_cookbook)
+admin.site.register(festival)
