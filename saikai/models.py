@@ -14,7 +14,7 @@ SEASON = [
     ("SUM", "夏"),  # Summer
     ("AUT", "秋"),  # Autumn
     ("WIN", "冬"),  # Winter
-    ("N", "无"),    # None
+    ("N", "无"),  # None
 ]
 
 CLASSIFICATION = [
@@ -85,6 +85,7 @@ class resident(models.Model):
     class Meta:
         verbose_name = "居民"
         verbose_name_plural = "居民"
+
 
 """
 EVENT_CLASSIFICATION = [
@@ -215,3 +216,49 @@ class cookbook(models.Model):
     class Meta:
         verbose_name = "料理"
         verbose_name_plural = "料理"
+
+
+class tv_cookbook(models.Model):
+    name = models.CharField(max_length=20, unique=True, verbose_name="名称")
+    year = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name="年",
+    )
+    month = models.CharField(
+        max_length=3, choices=SEASON, default="SPR", verbose_name="月"
+    )
+    day = models.PositiveSmallIntegerField(
+        default=1,
+        verbose_name="日",
+    )
+    note = models.CharField(max_length=20, default="超美味时间", verbose_name="名称")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "电视料理"
+        verbose_name_plural = "电视料理"
+
+class festival(models.Model):
+    name = models.CharField(max_length=20, unique=True, verbose_name="名称")
+    name_jp = models.CharField(max_length=20, unique=True, verbose_name="名字（日语）")
+    month = models.CharField(
+        max_length=3, choices=SEASON, default="SPR", verbose_name="月"
+    )
+    day = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(30)],
+        default=1,
+        verbose_name="日",
+    )
+    start_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="开始时间"),
+    end_time = models.CharField(max_length=20, null=True, blank=True, verbose_name="结束时间"),
+    address = models.CharField(max_length=20, null=True, blank=True, verbose_name="地点"),
+    note = HTMLField(blank=True, verbose_name="注释")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "节日"
+        verbose_name_plural = "节日"

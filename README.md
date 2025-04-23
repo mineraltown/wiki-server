@@ -28,6 +28,8 @@ python manage.py collectstatic
 
 # 创建应用 居民
 python manage.py startapp resident
+# 创建应用 提醒
+python manage.py startapp todo
 # 创建应用 重聚矿石镇
 python manage.py startapp saikai
 ```
