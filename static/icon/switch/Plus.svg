@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #58595b;
+      }
+    </style>
+  </defs>
+  <circle class="cls-2" cx="25" cy="25" r="25"/>
+  <polygon class="cls-1" points="38 22.5 27.5 22.5 27.5 12 22.5 12 22.5 22.5 12 22.5 12 27.5 22.5 27.5 22.5 38 27.5 38 27.5 27.5 38 27.5 38 22.5"/>
+</svg>

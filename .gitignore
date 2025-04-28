@@ -47,8 +47,9 @@ venv.bak/
 
 # This Project
 wiki/settings.py
-/static/
-/media/
+/static/admin/
+/static/django_tinymce/
+/static/tinymce/
 migrations/
 test*
 
