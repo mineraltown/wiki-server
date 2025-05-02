@@ -67,6 +67,8 @@ def html(request, id):
         "time": i.lastmodified.strftime("%Y年%m月%d日 %H:%M"),
         "text": i.text.replace("\r\n", "").replace(
             'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
+        ).replace(
+            'src="/media/', f"src=\"{request.build_absolute_uri('/')[:-1]}/media/"
         ),
     }
     return JsonResponse(
