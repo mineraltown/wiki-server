@@ -24,7 +24,19 @@ CLASSIFICATION = [
     ("E", "精灵"),  # Elf
 ]
 
+
 class resident(models.Model):
+
+    def like_default():
+        return {
+            "最喜欢": ["", ""],
+            "很喜欢": ["", ""],
+            "喜欢": ["", ""],
+            "普通": ["", ""],
+            "讨厌": ["", ""],
+            "很讨厌": ["", ""],
+        }
+
     name = models.CharField(max_length=10, unique=True, verbose_name="名字")
     name_jp = models.CharField(max_length=10, unique=True, verbose_name="名字（日语）")
     name_en = models.CharField(max_length=20, unique=True, verbose_name="名字（英语）")
@@ -44,6 +56,17 @@ class resident(models.Model):
         blank=True,
         verbose_name="全身",
     )
+    sex = models.CharField(
+        max_length=1, choices=SEX_CHOICES, default="M", verbose_name="性别"
+    )
+    birth_month = models.CharField(
+        max_length=3, choices=SEASON, default="SPR", verbose_name="生日（月）"
+    )
+    birth_day = models.PositiveSmallIntegerField(default=1, verbose_name="生日（日）")
+    birth_day_another = models.PositiveSmallIntegerField(
+        default=0, verbose_name="生日（日）与主角冲突"
+    )
+    like = models.JSONField(default=like_default, verbose_name="喜好")
     note = HTMLField(blank=True, verbose_name="注释")
 
     def __str__(self):

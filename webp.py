@@ -19,7 +19,7 @@ import sys
 def convert_image(
     input_path: Path,
     output_dir: Path = None,
-    max_size: int = 200,
+    max_size: int = 360,
     quality: int = 75,
     replace_original: bool = False,
 ) -> bool:
@@ -77,7 +77,7 @@ def main():
         "-q", "--quality", type=int, default=75, help="压缩质量 (1-100，默认 75)"
     )
     parser.add_argument(
-        "-s", "--size", type=int, default=200, help="最大边长像素（默认 200）"
+        "-s", "--size", type=int, default=360, help="最大边长像素（默认 360）"
     )
 
     args = parser.parse_args()

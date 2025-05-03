@@ -1,17 +1,18 @@
 from django.http import JsonResponse
-from saikai.models import resident, festival, tv_cookbook
-
+from saikai.models import resident as saikai_resident_json, festival as saikai_festival_json, tv_cookbook
+from resident.models import resident
+from .models import *
 
 def saikai_resident(request):
     data = []
-    for i in resident.objects.all().order_by("id"):
+    for i in saikai_resident_json.objects.all().order_by("id"):
         if i.birth_month != "N":
             if "最喜欢" in i.like:
                 best = i.like["最喜欢"]
             else:
                 best = []
-            if "喜欢" in i.like:
-                more = i.like["喜欢"]
+            if "很喜欢" in i.like:
+                more = i.like["很喜欢"]
             else:
                 more = []
             data.append(
@@ -42,7 +43,7 @@ def saikai_resident(request):
 
 def saikai_festival(request):
     data = []
-    for i in festival.objects.all().order_by("id"):
+    for i in saikai_festival_json.objects.all().order_by("id"):
         if i.note == "":
             note = None
         else:
@@ -80,6 +81,70 @@ def saikai_cookbook(request):
                 "note": i.note,
             }
         )
+    return JsonResponse(
+        data,
+        safe=False,
+        json_dumps_params={
+            "indent": 4,
+            "ensure_ascii": False,
+        },
+    )
+
+def Festival(request, ver):
+    data = []
+    for i in festival.objects.filter(version__sub=ver).order_by("id"):
+        if i.note == "":
+            note = None
+        else:
+            note = i.note
+        data.append(
+            {
+                "name": i.name,
+                "month": i.get_month_display(),
+                "day": i.day,
+                "start_time": i.start_time,
+                "end_time": i.end_time,
+                "address": i.address,
+                "note": note,
+            }
+        )
+    return JsonResponse(
+        data,
+        safe=False,
+        json_dumps_params={
+            "indent": 4,
+            "ensure_ascii": False,
+        },
+    )
+
+def Resident(request, ver):
+    data = []
+    for i in resident.objects.filter(version__sub=ver).order_by("id"):
+        if i.birth_month != "N":
+            if "最喜欢" in i.like:
+                best = i.like["最喜欢"]
+            else:
+                best = []
+            if "很喜欢" in i.like:
+                more = i.like["很喜欢"]
+            else:
+                more = []
+            data.append(
+                {
+                    "name": i.name,
+                    "birthday": {
+                        "month": i.get_birth_month_display(),
+                        "day": i.birth_day,
+                        "day2": (
+                            None if i.birth_day_another == 0 else i.birth_day_another
+                        ),
+                    },
+                    "like": {
+                        "best": best,
+                        "more": more,
+                    },
+                }
+            )
     return JsonResponse(
         data,
         safe=False,
