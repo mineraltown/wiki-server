@@ -15,7 +15,7 @@ class festival(models.Model):
     version = models.ForeignKey(
         version, models.SET_NULL, default=9, null=True, blank=True, verbose_name="版本"
     )
-    name = models.CharField(max_length=20, unique=True, verbose_name="名称")
+    name = models.CharField(max_length=20, verbose_name="名称")
     month = models.CharField(
         max_length=3, choices=SEASON, default="SPR", verbose_name="月"
     )
