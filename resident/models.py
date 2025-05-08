@@ -38,9 +38,9 @@ class resident(models.Model):
             "很讨厌": ["", ""],
         }
 
-    name = models.CharField(max_length=10, unique=True, verbose_name="名字")
-    name_jp = models.CharField(max_length=10, unique=True, verbose_name="名字（日语）")
-    name_en = models.CharField(max_length=20, unique=True, verbose_name="名字（英语）")
+    name = models.CharField(max_length=10, verbose_name="名字")
+    name_jp = models.CharField(max_length=10, verbose_name="名字（日语）")
+    name_en = models.CharField(max_length=20, verbose_name="名字（英语）")
     form = models.CharField(
         max_length=1, choices=CLASSIFICATION, default="O", verbose_name="分类"
     )
