@@ -67,7 +67,7 @@ class resident(models.Model):
     birth_day_another = models.PositiveSmallIntegerField(
         default=0, verbose_name="生日（日）与主角冲突"
     )
-    like = models.JSONField(default=like_default, verbose_name="喜好")
+    like = models.JSONField(default=like_default, blank=True, verbose_name="喜好")
     note = HTMLField(blank=True, verbose_name="注释")
 
     def __str__(self):
