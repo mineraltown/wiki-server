@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 50">
+  <defs>
+    <style>
+      .b {
+        fill: #ff9c9c;
+      }
+
+      .c {
+        fill: #988ab6;
+      }
+
+      .d {
+        fill: #fee17f;
+      }
+    </style>
+  </defs>
+  <path class="c" d="M25,0C11.19,0,0,11.19,0,25s11.19,25,25,25h50V0H25Z"/>
+  <rect class="d" x="75" width="350" height="50"/>
+  <path class="b" d="M475,0h-50v50h50c13.81,0,25-11.19,25-25S488.81,0,475,0Z"/>
+</svg>
