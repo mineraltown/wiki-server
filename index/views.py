@@ -5,7 +5,7 @@ from .models import *
 
 
 def index(request):
-    return HttpResponse("Hello, world.")
+    return HttpResponse("欢迎来到矿石镇的攻略百科！")
 
 
 def menu(request, v=False):

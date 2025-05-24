@@ -61,6 +61,8 @@ def saikai_resident(request, id=False):
             data[x[1]] = {}
             for y in saikai_resident_models.objects.filter(form=x[0]).order_by("id"):
                 data[x[1]][y.name_en] = {"id": y.id, "icon": y.icon.url, "name": y.name}
+            if len(data[x[1]]) == 0:
+                data.pop(x[1])
 
     return JsonResponse(
         data,
