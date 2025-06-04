@@ -1,11 +1,12 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.db.models import Q
-import re
 from .models import *
+import re
 
 
 def index(request):
-    return HttpResponse("欢迎来到矿石镇的攻略百科！")
+    return redirect("https://wiki.mineraltown.net/",permanent=True)
 
 
 def menu(request, v=False):
@@ -65,9 +66,11 @@ def html(request, id):
     data = {
         "title": i.title,
         "time": i.lastmodified.strftime("%Y年%m月%d日 %H:%M"),
-        "text": i.text.replace("\r\n", "").replace(
+        "text": i.text.replace("\r\n", "")
+        .replace(
             'src="/static/', f"src=\"{request.build_absolute_uri('/')[:-1]}/static/"
-        ).replace(
+        )
+        .replace(
             'src="/media/', f"src=\"{request.build_absolute_uri('/')[:-1]}/media/"
         ),
     }
