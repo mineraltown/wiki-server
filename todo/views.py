@@ -1,8 +1,12 @@
+from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from saikai.models import resident as saikai_resident_json, festival as saikai_festival_json, tv_cookbook
 from resident.models import resident
 from .models import *
 
+CHECHE_TIME = 60 * 60 * 24 * 365 * 10  # 缓存10年
+
+@cache_page(CHECHE_TIME)
 def saikai_resident(request):
     data = []
     for i in saikai_resident_json.objects.all().order_by("id"):
@@ -41,6 +45,7 @@ def saikai_resident(request):
     )
 
 
+@cache_page(CHECHE_TIME)
 def saikai_festival(request):
     data = []
     for i in saikai_festival_json.objects.all().order_by("id"):
@@ -69,6 +74,7 @@ def saikai_festival(request):
     )
 
 
+@cache_page(CHECHE_TIME)
 def saikai_cookbook(request):
     data = []
     for i in tv_cookbook.objects.all().order_by("id"):
@@ -90,6 +96,7 @@ def saikai_cookbook(request):
         },
     )
 
+@cache_page(CHECHE_TIME)
 def Festival(request, ver):
     data = []
     for i in festival.objects.filter(version__sub=ver).order_by("id"):
@@ -117,6 +124,7 @@ def Festival(request, ver):
         },
     )
 
+@cache_page(CHECHE_TIME)
 def Resident(request, ver):
     data = []
     for i in resident.objects.filter(version__sub=ver).order_by("id"):

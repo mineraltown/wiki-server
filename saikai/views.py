@@ -1,7 +1,10 @@
+from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from .models import *
 
+CHECHE_TIME = 60 * 60 * 24 * 365 * 10  # 缓存10年
 
+@cache_page(CHECHE_TIME)
 def get_fish(request):
     data = []
     for i in fish.objects.all().order_by("id"):
@@ -45,6 +48,7 @@ def get_fish(request):
     )
 
 
+@cache_page(CHECHE_TIME)
 def get_cookbook(request):
     data = []
     for i in cookbook.objects.all().order_by("id"):

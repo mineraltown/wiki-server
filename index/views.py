@@ -1,14 +1,18 @@
+from django.views.decorators.cache import cache_page
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.db.models import Q
 from .models import *
 import re
 
+CHECHE_TIME = 60 * 60 * 24 * 365 * 10  # 缓存10年
 
+@cache_page(CHECHE_TIME)
 def index(request):
     return redirect("https://wiki.mineraltown.net/",permanent=True)
 
 
+@cache_page(CHECHE_TIME)
 def menu(request, v=False):
     data = {}
 
@@ -60,7 +64,7 @@ def menu(request, v=False):
         },
     )
 
-
+@cache_page(CHECHE_TIME)
 def html(request, id):
     i = content.objects.get(id=id)
     data = {
@@ -83,7 +87,7 @@ def html(request, id):
         },
     )
 
-
+@cache_page(CHECHE_TIME)
 def translate_query(request):
     data = {}
 
@@ -121,7 +125,7 @@ def translate_query(request):
         },
     )
 
-
+@cache_page(CHECHE_TIME)
 def replacementMap(request):
     data = {}
 

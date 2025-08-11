@@ -1,8 +1,12 @@
+from django.views.decorators.cache import cache_page
 from django.template import loader
 from django.http import JsonResponse
 from .models import *
 from saikai.models import resident as saikai_resident_models
 
+CHECHE_TIME = 60 * 60 * 24 * 365 * 10  # 缓存10年
+
+@cache_page(CHECHE_TIME)
 def get_resident(request, ver="", id=False):
     data = {}
     if id:
@@ -38,7 +42,7 @@ def get_resident(request, ver="", id=False):
         },
     )
 
-
+@cache_page(CHECHE_TIME)
 def saikai_resident(request, id=False):
     data = {}
     if id:

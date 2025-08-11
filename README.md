@@ -7,6 +7,11 @@ pip install django-cors-headers
 pip install django-tinymce
 pip install "psycopg[binary]"
 pip install Pillow
+
+apt install redis-server
+pip install django-redis
+pip install pyzstd
+usermod -aG redis www-data
 ```
 
 ```sh
@@ -59,6 +64,21 @@ DATABASES = {
         "PASSWORD": "",
         "HOST": "127.0.0.1",
         "PORT": "5432",
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache", # 使用 Redis 缓存
+        "LOCATION": "unix:///run/redis/redis-server.sock?db=1",  # 用 Unix socket + DB
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # 压缩器 Zlib
+            "COMPRESSOR": "django_redis.compressors.zstd.ZStdCompressor",
+            # 使用最新的 Pickle
+            "PICKLE_VERSION": -1,
+        },
+        "KEY_PREFIX": "wiki", # 缓存前缀
     }
 }
 
