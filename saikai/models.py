@@ -21,7 +21,7 @@ CLASSIFICATION = [
     ("G", "花嫁候补"),  # Boy
     ("B", "花婿候补"),  # Girl
     ("O", "普通居民"),  # Ordinary
-    ("E", "精灵"),  # Elf
+    ("E", "小矮人"),  # Elf
 ]
 
 

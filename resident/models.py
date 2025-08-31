@@ -22,7 +22,7 @@ CLASSIFICATION = [
     ("B", "花婿候补"),  # Boy
     ("O", "普通居民"),  # Ordinary
     ("T", "其他居民"),  # Other
-    ("E", "精灵"),  # Elf
+    ("E", "小矮人"),  # Elf
 ]
 
 
