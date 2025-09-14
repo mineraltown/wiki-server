@@ -135,6 +135,9 @@ def Resident(request, ver):
                 best = []
             if "很喜欢" in i.like:
                 more = i.like["很喜欢"]
+            # 风集 -> 喜欢
+            elif ver.id == 37 and "喜欢" in i.like:
+                best = i.like["喜欢"]
             else:
                 more = []
             data.append(
@@ -153,6 +156,7 @@ def Resident(request, ver):
                     },
                 }
             )
+
     return JsonResponse(
         data,
         safe=False,
