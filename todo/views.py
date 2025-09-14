@@ -135,8 +135,8 @@ def Resident(request, ver):
                 best = []
             if "很喜欢" in i.like:
                 more = i.like["很喜欢"]
-            # 风集 -> 喜欢
-            elif ver.id == 37 and "喜欢" in i.like:
+            # 风之繁华集市 -> 喜欢
+            elif i.version.sub == "grandbazaar" and "喜欢" in i.like:
                 best = i.like["喜欢"]
             else:
                 more = []
