@@ -3,15 +3,24 @@
 ## 部署
 
 ```sh
-pip install django-cors-headers
-pip install django-tinymce
-pip install "psycopg[binary]"
-pip install Pillow
-
+# Redis
 apt install redis-server
-pip install django-redis
-pip install pyzstd
 usermod -aG redis www-data
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+# requirements.txt
+pip install -r requirements.txt
+# pip install django
+# pip install django-cors-headers
+# pip install django-tinymce
+# pip install django-redis
+# pip install "psycopg[binary]"
+# pip install Pillow
+# pip install pyzstd
+# pip install uwsgi
+# pip install ruff
 ```
 
 ```sh

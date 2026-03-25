@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# 颜色
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[36m"
+RESET="\033[0m"
+
+# 分割线
+line() {
+    echo -e "${BLUE}--------------------------------------------------${RESET}"
+}
+# 用户
+USER=$(logname)
+FULL_NAME=$(getent passwd $USER | awk -F: '{print $5}' | awk -F, '{print $1}')
+
+# 获取登录IP
+IP=$(who | awk 'NR==1 {print $NF}' | tr -d '()')
+
+# 上次登录信息
+LAST_TIME=$(lslogins -u "$USER" | awk -F': +' '/Last login/ {print $2}')
+LAST_IP=$(lslogins -u "$USER" | awk -F': +' '/Last hostname/ {print $2}' | xargs)
+
+# 查询归属地（2秒超时）
+IP_INFO=$(curl -s --max-time 2 http://ip-api.com/json/$IP?lang=zh-CN)
+COUNTRY=$(echo $IP_INFO | grep -oP '"country":"\K[^"]+')
+REGION=$(echo $IP_INFO | grep -oP '"regionName":"\K[^"]+')
+CITY=$(echo $IP_INFO | grep -oP '"city":"\K[^"]+')
+ISP=$(echo $IP_INFO | grep -oP '"isp":"\K[^"]+')
+
+LAST_IP_INFO=$(curl -s --max-time 2 http://ip-api.com/json/$LAST_IP?lang=zh-CN)
+LAST_COUNTRY=$(echo $LAST_IP_INFO | grep -oP '"country":"\K[^"]+')
+LAST_REGION=$(echo $LAST_IP_INFO | grep -oP '"regionName":"\K[^"]+')
+LAST_CITY=$(echo $LAST_IP_INFO | grep -oP '"city":"\K[^"]+')
+
+# 系统信息
+HOST=$(hostname)
+KERNEL=$(uname -sr)
+UPTIME=$(uptime -p)
+
+# 内存
+MEM=$(free -h | awk '/Mem:/ {print $3 "/" $2}')
+
+# CPU使用率
+CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8"%"}')
+
+clear
+
+echo -e "${GREEN}$FULL_NAME，欢迎登录<矿石镇的攻略百科>服务器！${RESET}"
+echo -e "主机名：${YELLOW}$HOST${RESET}"
+echo -e "系统内核：${YELLOW}$KERNEL${RESET}"
+echo -e "运行时间：${YELLOW}$UPTIME${RESET}"
+echo -e "CPU使用率：${YELLOW}$CPU${RESET}"
+echo -e "内存使用：${YELLOW}$MEM${RESET}"
+line
+
+echo -e "${GREEN}登录信息${RESET}"
+echo -e "登录IP：${YELLOW}$IP${RESET}"
+echo -e "归属地：${YELLOW}$COUNTRY $REGION $CITY${RESET}"
+echo -e "运营商：${YELLOW}$ISP${RESET}"
+line
+echo -e "${GREEN}上次登录：${RESET}"
+echo -e "上次登录时间：${YELLOW}$LAST_TIME${RESET}"
+echo -e "上次登录IP：${YELLOW}$LAST_IP${RESET}"
+echo -e "上次登录归属地：${YELLOW}$LAST_COUNTRY $LAST_REGION $LAST_CITY${RESET}"
+line
+echo -e "${GREEN}系统服务状态：${RESET}"
+for s in ssh nginx postgresql@18-main redis-server cron wiki fail2ban; do
+  SYSTEMD_COLORS=1 systemctl status $s --no-pager \
+  | awk -v name=$s '/Active:/{
+      sub(/^[ \t]*Active:[ \t]*/,"")       # 去掉前导空格和Active:
+      sub(/ since.*/,"")                   # 去掉 since 及后面的内容
+      printf "%-20s %s\n", name ":", $0 # 服务名对齐
+    }'
+done
+line
