@@ -202,10 +202,12 @@ systemctl restart nginx.service
 
 # wiki
 git clone -b reborn git@github.com:mineraltown/wiki.git /var/www/wiki
+git config --global --add safe.directory /var/www/wiki
 
 # wiki-server & Django
 mkdir -p /var/www/wiki-server
 git clone git@github.com:mineraltown/wiki-server.git /var/www/wiki-server
+git config --global --add safe.directory /var/www/wiki-server
 
 cd /var/www/wiki-server
 python3 -m venv .venv
