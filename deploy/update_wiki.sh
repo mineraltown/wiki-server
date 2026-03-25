@@ -37,12 +37,12 @@ cd ~
 log_success "代码更新完成"
 
 log_info "正在解压数据库备份..."
-zstd -d wiki.sql.zst
+zstd -d -f wiki.sql.zst
 
 log_warn "即将重置数据库 (DROP & CREATE)..."
-psql -h 127.0.0.1 -p 5432 -d postgres -c "DROP DATABASE IF EXISTS wiki;"
-psql -h 127.0.0.1 -p 5432 -d postgres -c "CREATE DATABASE wiki;"
-psql -h 127.0.0.1 -p 5432 -d postgres -f wiki.sql
+psql -U postgres -h 127.0.0.1 -p 5432 -d postgres -c "DROP DATABASE IF EXISTS wiki;"
+psql -U postgres -h 127.0.0.1 -p 5432 -d postgres -c "CREATE DATABASE wiki;"
+psql -U postgres -h 127.0.0.1 -p 5432 -d postgres -f wiki.sql
 log_success "数据库重置完成"
 
 log_info "正在重启服务..."

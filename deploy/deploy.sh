@@ -151,6 +151,12 @@ su postgres
 pgsql   # \password
 psql -U postgres -h 127.0.0.1 -p 5432 -d postgres
 
+echo -e "请输入 PostgreSQL 密码:"
+read -r -s PG_PASSWD
+echo -e "\n"
+echo "*:5432:*:postgres:$PG_PASSWD" > ~/.pgpass
+chmod 600 ~/.pgpass
+
 # PostgreSQL 公网访问
 # 不再配置公网访问，使用 ssh 隧道进行备份
 # vim /etc/postgresql/18/main/postgresql.conf
